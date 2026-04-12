@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import AgentCard from "@/components/AgentCard";
 import AgentModal from "@/components/AgentModal";
 import ActivityFeed from "@/components/ActivityFeed";
+
+interface Message {
+  role: "user" | "assistant";
+  content: string;
+}
 
 const agents = [
   {
@@ -25,6 +30,15 @@ const agents = [
 
 const Index = () => {
   const [selectedAgent, setSelectedAgent] = useState<typeof agents[0] | null>(null);
+  // Per-agent conversation memory
+  const [memories, setMemories] = useState<Record<string, Message[]>>({});
+
+  const currentHistory = selectedAgent ? (memories[selectedAgent.name] || []) : [];
+
+  const handleUpdateHistory = useCallback((messages: Message[]) => {
+    if (!selectedAgent) return;
+    setMemories(prev => ({ ...prev, [selectedAgent.name]: messages }));
+  }, [selectedAgent]);
 
   return (
     <div className="min-h-screen">
@@ -57,11 +71,30 @@ const Index = () => {
         </motion.div>
       </section>
 
+      {/* Empty state */}
+      {!selectedAgent && (
+        <div className="text-center mb-8">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-muted-foreground text-sm animate-pulse"
+          >
+            ✨ Select an agent below to begin
+          </motion.p>
+        </div>
+      )}
+
       {/* Agent Cards */}
       <section className="px-6 md:px-12 max-w-5xl mx-auto">
         <div className="grid md:grid-cols-3 gap-6">
           {agents.map((agent, i) => (
-            <AgentCard key={agent.name} agent={agent} index={i} onSelect={setSelectedAgent} />
+            <AgentCard
+              key={agent.name}
+              agent={agent}
+              index={i}
+              onSelect={setSelectedAgent}
+              isActive={selectedAgent?.name === agent.name}
+            />
           ))}
         </div>
       </section>
@@ -72,7 +105,12 @@ const Index = () => {
       </section>
 
       {/* Modal */}
-      <AgentModal agent={selectedAgent} onClose={() => setSelectedAgent(null)} />
+      <AgentModal
+        agent={selectedAgent}
+        onClose={() => setSelectedAgent(null)}
+        conversationHistory={currentHistory}
+        onUpdateHistory={handleUpdateHistory}
+      />
     </div>
   );
 };
