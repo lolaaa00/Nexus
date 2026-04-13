@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Wallet, LogOut, Copy, Check, ExternalLink } from "lucide-react";
+import { Wallet, LogOut, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface WalletState {
