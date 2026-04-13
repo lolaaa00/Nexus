@@ -5,10 +5,10 @@ import { Activity } from "lucide-react";
 const feedItems = [
   "User hired Crypto Analyst to analyze ETH wallet",
   "Twitter Writer generated a viral thread on AI agents",
-  "Code Assistant fixed a React rendering bug",
+  "Game Builder created a snake game in seconds",
   "Crypto Analyst evaluated Solana token metrics",
   "Twitter Writer crafted a growth hacking thread",
-  "Code Assistant optimized a database query",
+  "Game Builder built a tic tac toe game",
   "User ran Crypto Analyst on a DeFi portfolio",
   "Twitter Writer wrote a product launch thread",
 ];

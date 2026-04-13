@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { TrendingUp, Twitter, Code } from "lucide-react";
+import { TrendingUp, Twitter, Gamepad2 } from "lucide-react";
 
 const iconMap: Record<string, React.ReactNode> = {
   "Crypto Analyst": <TrendingUp className="w-8 h-8" />,
   "Twitter Writer": <Twitter className="w-8 h-8" />,
-  "Code Assistant": <Code className="w-8 h-8" />,
+  "Game Builder": <Gamepad2 className="w-8 h-8" />,
 };
 
 interface Agent {
