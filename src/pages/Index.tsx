@@ -46,9 +46,12 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Header */}
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Sparkles className="w-6 h-6 text-primary" />
-          <span className="text-xl font-display font-bold text-foreground">AgentHub</span>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+            <Play className="w-4 h-4 text-primary-foreground fill-primary-foreground" />
+          </div>
+          <span className="text-xl font-display font-bold text-foreground tracking-tight">ExecAI</span>
+          <span className="text-[10px] text-muted-foreground border border-border px-1.5 py-0.5 rounded">by Rialo</span>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
@@ -68,13 +71,14 @@ const Index = () => {
           transition={{ duration: 0.5 }}
         >
           <h1 className="text-4xl md:text-6xl font-display font-bold text-foreground leading-tight mb-4">
-            Your AI Agent
+            Your Instant AI
             <br />
-            <span className="text-primary">Marketplace</span>
+            <span className="text-primary">Execution Workspace</span>
           </h1>
           <p className="text-muted-foreground text-lg max-w-md mx-auto">
-            Deploy specialized AI agents for any task. Instant results, zero setup.
+            Run specialized AI agents for any task. Instant results, zero setup.
           </p>
+          <p className="text-xs text-muted-foreground mt-2">⚡ Powered by Rialo</p>
         </motion.div>
       </section>
 
