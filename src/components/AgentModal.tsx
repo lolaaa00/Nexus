@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ThumbsUp, ThumbsDown } from "lucide-react";
+import CodePreview from "./CodePreview";
 
 interface Message {
   role: "user" | "assistant";
@@ -228,6 +229,9 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
                       {output}
                       {loading && <span className="inline-block w-0.5 h-4 bg-primary ml-0.5 animate-pulse" />}
                     </p>
+                    {!loading && agent && (
+                      <CodePreview content={output} agentName={agent.name} />
+                    )}
                     {!loading && (
                       <div className="flex items-center gap-2 mt-4 pt-3 border-t border-border/50">
                         <span className="text-xs text-muted-foreground mr-auto">Was this helpful?</span>

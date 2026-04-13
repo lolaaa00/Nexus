@@ -4,6 +4,8 @@ import { Sparkles } from "lucide-react";
 import AgentCard from "@/components/AgentCard";
 import AgentModal from "@/components/AgentModal";
 import ActivityFeed from "@/components/ActivityFeed";
+import MultiAgentView from "@/components/MultiAgentView";
+import { Switch } from "@/components/ui/switch";
 
 interface Message {
   role: "user" | "assistant";
@@ -22,16 +24,16 @@ const agents = [
     prompt: "Write a viral Twitter thread about:",
   },
   {
-    name: "Code Assistant",
-    description: "Helps debug, refactor, and generate production-ready code.",
-    prompt: "Help with this coding task:",
+    name: "Game Builder",
+    description: "Creates simple browser games — snake, tic tac toe, flappy bird and more.",
+    prompt: "You are a game developer. Always return a complete runnable HTML file with all CSS and JavaScript inline. Include no explanations before the code. After the code block, add a short 'How to run' section.",
   },
 ];
 
 const Index = () => {
   const [selectedAgent, setSelectedAgent] = useState<typeof agents[0] | null>(null);
-  // Per-agent conversation memory
   const [memories, setMemories] = useState<Record<string, Message[]>>({});
+  const [multiMode, setMultiMode] = useState(false);
 
   const currentHistory = selectedAgent ? (memories[selectedAgent.name] || []) : [];
 
@@ -48,7 +50,12 @@ const Index = () => {
           <Sparkles className="w-6 h-6 text-primary" />
           <span className="text-xl font-display font-bold text-foreground">AgentHub</span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Single</span>
+            <Switch checked={multiMode} onCheckedChange={setMultiMode} />
+            <span className="text-xs text-muted-foreground">Multi-Agent</span>
+          </div>
           <span className="text-xs text-muted-foreground bg-secondary/60 px-3 py-1.5 rounded-full">3 agents live</span>
         </div>
       </header>
@@ -84,33 +91,39 @@ const Index = () => {
         </div>
       )}
 
-      {/* Agent Cards */}
-      <section className="px-6 md:px-12 max-w-5xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-6">
-          {agents.map((agent, i) => (
-            <AgentCard
-              key={agent.name}
-              agent={agent}
-              index={i}
-              onSelect={setSelectedAgent}
-              isActive={selectedAgent?.name === agent.name}
-            />
-          ))}
-        </div>
-      </section>
+      {multiMode ? (
+        <MultiAgentView agents={agents} />
+      ) : (
+        <>
+          {/* Agent Cards */}
+          <section className="px-6 md:px-12 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-6">
+              {agents.map((agent, i) => (
+                <AgentCard
+                  key={agent.name}
+                  agent={agent}
+                  index={i}
+                  onSelect={setSelectedAgent}
+                  isActive={selectedAgent?.name === agent.name}
+                />
+              ))}
+            </div>
+          </section>
 
-      {/* Activity Feed */}
-      <section className="px-6 md:px-12 max-w-5xl mx-auto mt-16 mb-20">
-        <ActivityFeed />
-      </section>
+          {/* Activity Feed */}
+          <section className="px-6 md:px-12 max-w-5xl mx-auto mt-16 mb-20">
+            <ActivityFeed />
+          </section>
 
-      {/* Modal */}
-      <AgentModal
-        agent={selectedAgent}
-        onClose={() => setSelectedAgent(null)}
-        conversationHistory={currentHistory}
-        onUpdateHistory={handleUpdateHistory}
-      />
+          {/* Modal */}
+          <AgentModal
+            agent={selectedAgent}
+            onClose={() => setSelectedAgent(null)}
+            conversationHistory={currentHistory}
+            onUpdateHistory={handleUpdateHistory}
+          />
+        </>
+      )}
     </div>
   );
 };
