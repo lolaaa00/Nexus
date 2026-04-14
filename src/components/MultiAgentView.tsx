@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Download, RefreshCw, CheckCircle2 } from "lucide-react";
+import { Play, Download, RefreshCw, CheckCircle2 } from "lucide-react";
 
 interface Agent {
   name: string;
@@ -21,7 +21,6 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 function extractHtmlCode(text: string): string | null {
   const match = text.match(/```html\s*([\s\S]*?)```/);
   if (match) return match[1].trim();
-  // Check if the whole response is an HTML file
   if (text.trim().startsWith("<!DOCTYPE") || text.trim().startsWith("<html")) {
     return text.trim();
   }
@@ -134,7 +133,6 @@ const MultiAgentView = ({ agents }: MultiAgentViewProps) => {
           );
         })
         .finally(() => {
-          // Check if all done
           setTimeout(() => {
             setResponses((prev) => {
               const allDone = prev.every((r) => !r.loading);
@@ -159,20 +157,20 @@ const MultiAgentView = ({ agents }: MultiAgentViewProps) => {
   };
 
   return (
-    <section className="px-6 md:px-12 max-w-6xl mx-auto mt-12 mb-16">
+    <section className="px-6 md:px-12 max-w-[1100px] mx-auto mt-4 mb-16 w-full">
       <div className="text-center mb-8">
-        <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-2">
+        <h2 className="text-2xl font-display font-bold text-foreground mb-2">
           Run a Task Across Agents
         </h2>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           See how different AI agents approach the same problem
         </p>
       </div>
 
-      <div className="glass-card-solid rounded-3xl p-6 md:p-8 mb-8">
+      <div className="bg-card rounded-2xl p-6 md:p-8 mb-8 border border-border/50 shadow-sm">
         <textarea
           placeholder="Enter your prompt for all agents..."
-          className="w-full bg-secondary/50 border-0 rounded-2xl p-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none min-h-[80px] transition-shadow"
+          className="w-full bg-secondary/50 border border-border/30 rounded-xl p-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none min-h-[80px] transition-shadow"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={(e) => {
@@ -185,7 +183,7 @@ const MultiAgentView = ({ agents }: MultiAgentViewProps) => {
         <button
           onClick={runAll}
           disabled={running || !prompt.trim()}
-          className="w-full mt-4 bg-primary text-primary-foreground py-3 rounded-xl font-medium text-sm hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+          className="w-full mt-4 bg-primary text-primary-foreground py-3 rounded-xl font-medium text-sm hover:bg-primary/90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {running ? (
             <>
@@ -194,12 +192,12 @@ const MultiAgentView = ({ agents }: MultiAgentViewProps) => {
                 <span className="w-1.5 h-1.5 bg-primary-foreground rounded-full animate-bounce [animation-delay:150ms]" />
                 <span className="w-1.5 h-1.5 bg-primary-foreground rounded-full animate-bounce [animation-delay:300ms]" />
               </span>
-              Running all agents...
+              Executing all agents...
             </>
           ) : (
             <>
-              <Sparkles className="w-4 h-4" />
-              Run All Agents
+              <Play className="w-4 h-4" />
+              Execute All
             </>
           )}
         </button>
@@ -217,15 +215,15 @@ const MultiAgentView = ({ agents }: MultiAgentViewProps) => {
                   key={resp.agentName}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1, duration: 0.4 }}
-                  className="glass-card-solid rounded-3xl p-6 flex flex-col"
+                  transition={{ delay: i * 0.08, duration: 0.4 }}
+                  className="bg-card rounded-2xl p-6 flex flex-col border border-border/50 shadow-sm"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-display font-bold text-foreground">
-                      {resp.agentName}'s Answer
+                    <h3 className="text-sm font-display font-semibold text-foreground">
+                      {resp.agentName}
                     </h3>
                     {resp.done && !resp.error && (
-                      <span className="flex items-center gap-1 text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                      <span className="flex items-center gap-1 text-[11px] text-green-700 bg-green-50 px-2 py-0.5 rounded-full border border-green-200">
                         <CheckCircle2 className="w-3 h-3" />
                         Complete
                       </span>
@@ -233,14 +231,14 @@ const MultiAgentView = ({ agents }: MultiAgentViewProps) => {
                   </div>
 
                   {resp.error ? (
-                    <div className="text-destructive text-xs bg-destructive/10 rounded-xl p-3">
+                    <div className="text-destructive text-xs bg-destructive/10 rounded-lg p-3">
                       {resp.error}
                     </div>
                   ) : isPreview && htmlCode ? (
                     <div className="flex-1 flex flex-col gap-2">
                       <iframe
                         srcDoc={htmlCode}
-                        className="w-full flex-1 min-h-[300px] rounded-xl border border-border bg-white"
+                        className="w-full flex-1 min-h-[300px] rounded-lg border border-border bg-white"
                         sandbox="allow-scripts"
                         title={`${resp.agentName} preview`}
                       />
@@ -248,11 +246,11 @@ const MultiAgentView = ({ agents }: MultiAgentViewProps) => {
                         onClick={() => setPreviewAgent(null)}
                         className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                       >
-                        ← Back to response
+                        Back to response
                       </button>
                     </div>
                   ) : (
-                    <div className="flex-1 overflow-y-auto max-h-[300px] bg-secondary/30 rounded-2xl p-4 mb-3">
+                    <div className="flex-1 overflow-y-auto max-h-[300px] bg-secondary/30 rounded-lg p-4 mb-3">
                       <p className="text-xs text-foreground whitespace-pre-line leading-relaxed">
                         {resp.content}
                         {resp.loading && (
@@ -268,14 +266,14 @@ const MultiAgentView = ({ agents }: MultiAgentViewProps) => {
                         <>
                           <button
                             onClick={() => setPreviewAgent(resp.agentName)}
-                            className="flex-1 flex items-center justify-center gap-1.5 text-xs bg-primary/10 text-primary py-2 rounded-xl hover:bg-primary/20 transition-colors"
+                            className="flex-1 flex items-center justify-center gap-1.5 text-xs bg-primary/10 text-primary py-2 rounded-lg hover:bg-primary/15 transition-colors"
                           >
                             <RefreshCw className="w-3 h-3" />
-                            Run Code
+                            Preview
                           </button>
                           <button
                             onClick={() => downloadCode(resp.content, resp.agentName)}
-                            className="flex-1 flex items-center justify-center gap-1.5 text-xs bg-primary/10 text-primary py-2 rounded-xl hover:bg-primary/20 transition-colors"
+                            className="flex-1 flex items-center justify-center gap-1.5 text-xs bg-primary/10 text-primary py-2 rounded-lg hover:bg-primary/15 transition-colors"
                           >
                             <Download className="w-3 h-3" />
                             Download

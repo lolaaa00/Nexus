@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { TrendingUp, Twitter, Gamepad2 } from "lucide-react";
+import { TrendingUp, PenLine, Gamepad2 } from "lucide-react";
 
 const iconMap: Record<string, React.ReactNode> = {
-  "Crypto Analyst": <TrendingUp className="w-8 h-8" />,
-  "Twitter Writer": <Twitter className="w-8 h-8" />,
-  "Game Builder": <Gamepad2 className="w-8 h-8" />,
+  "Crypto Analyst": <TrendingUp className="w-6 h-6" />,
+  "Content Engine": <PenLine className="w-6 h-6" />,
+  "Game Builder": <Gamepad2 className="w-6 h-6" />,
 };
 
 interface Agent {
@@ -25,14 +25,16 @@ const AgentCard = ({ agent, index, onSelect, isActive }: AgentCardProps) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.4 }}
-      className={`glass-card-solid rounded-3xl p-8 glow-hover cursor-pointer group ${isActive ? "ring-2 ring-primary shadow-[0_0_20px_hsl(var(--primary)/0.3)]" : ""}`}
+      transition={{ delay: index * 0.08, duration: 0.4 }}
+      className={`bg-card rounded-[20px] p-7 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group ${
+        isActive ? "ring-2 ring-primary shadow-lg" : "border border-border/50"
+      }`}
       onClick={() => onSelect(agent)}
     >
-      <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-5 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+      <div className="w-12 h-12 rounded-xl bg-primary/8 flex items-center justify-center text-primary mb-5 group-hover:bg-primary/15 transition-colors duration-300">
         {iconMap[agent.name]}
       </div>
-      <h3 className="text-xl font-display font-semibold text-foreground mb-2">
+      <h3 className="text-lg font-display font-semibold text-foreground mb-2">
         {agent.name}
       </h3>
       <p className="text-muted-foreground text-sm leading-relaxed mb-6">
@@ -43,9 +45,9 @@ const AgentCard = ({ agent, index, onSelect, isActive }: AgentCardProps) => {
           e.stopPropagation();
           onSelect(agent);
         }}
-        className="w-full bg-primary text-primary-foreground py-3 rounded-xl font-medium text-sm hover:opacity-90 transition-all hover:shadow-lg hover:shadow-primary/20"
+        className="w-full bg-primary text-primary-foreground py-3 rounded-xl font-medium text-sm hover:bg-primary/90 transition-all"
       >
-        Run Agent
+        Execute
       </button>
     </motion.div>
   );

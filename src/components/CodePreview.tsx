@@ -41,7 +41,7 @@ const CodePreview = ({ content, agentName }: CodePreviewProps) => {
       className="mt-4"
     >
       <div className="flex items-center gap-2 mb-3">
-        <span className="flex items-center gap-1 text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">
+        <span className="flex items-center gap-1 text-[11px] text-green-700 bg-green-50 px-2 py-0.5 rounded-full border border-green-200">
           <CheckCircle2 className="w-3 h-3" />
           Execution Complete
         </span>
@@ -50,7 +50,7 @@ const CodePreview = ({ content, agentName }: CodePreviewProps) => {
       <div className="flex gap-2 mb-3">
         <button
           onClick={() => { setShowPreview(true); setIframeKey((k) => k + 1); }}
-          className="flex items-center gap-1.5 text-xs bg-primary/10 text-primary px-3 py-2 rounded-xl hover:bg-primary/20 transition-colors"
+          className="flex items-center gap-1.5 text-xs bg-primary/10 text-primary px-3 py-2 rounded-lg hover:bg-primary/15 transition-colors"
         >
           <Play className="w-3 h-3" />
           {showPreview ? "Run Code" : "Live Preview"}
@@ -58,7 +58,7 @@ const CodePreview = ({ content, agentName }: CodePreviewProps) => {
         {showPreview && (
           <button
             onClick={() => setIframeKey((k) => k + 1)}
-            className="flex items-center gap-1.5 text-xs bg-secondary text-foreground px-3 py-2 rounded-xl hover:bg-secondary/80 transition-colors"
+            className="flex items-center gap-1.5 text-xs bg-secondary text-foreground px-3 py-2 rounded-lg hover:bg-secondary/80 transition-colors"
           >
             <RefreshCw className="w-3 h-3" />
             Refresh
@@ -66,7 +66,7 @@ const CodePreview = ({ content, agentName }: CodePreviewProps) => {
         )}
         <button
           onClick={downloadCode}
-          className="flex items-center gap-1.5 text-xs bg-secondary text-foreground px-3 py-2 rounded-xl hover:bg-secondary/80 transition-colors"
+          className="flex items-center gap-1.5 text-xs bg-secondary text-foreground px-3 py-2 rounded-lg hover:bg-secondary/80 transition-colors"
         >
           <Download className="w-3 h-3" />
           Download
@@ -77,12 +77,12 @@ const CodePreview = ({ content, agentName }: CodePreviewProps) => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="rounded-2xl overflow-hidden border border-border"
+          className="rounded-xl overflow-hidden border border-border"
         >
           <iframe
             key={iframeKey}
             srcDoc={htmlCode}
-            className="w-full min-h-[400px] bg-white rounded-2xl"
+            className="w-full min-h-[400px] bg-white rounded-xl"
             sandbox="allow-scripts"
             title="Code Preview"
           />

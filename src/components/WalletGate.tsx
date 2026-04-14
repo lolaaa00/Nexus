@@ -18,35 +18,32 @@ const WalletGate = ({ children }: WalletGateProps) => {
   return (
     <div className="min-h-screen flex items-center justify-center px-6">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="max-w-md w-full text-center"
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="max-w-sm w-full text-center"
       >
-        {/* Logo */}
-        <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-            <Play className="w-5 h-5 text-primary-foreground fill-primary-foreground" />
+        <div className="flex items-center justify-center gap-2.5 mb-8">
+          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+            <Play className="w-4 h-4 text-primary-foreground fill-primary-foreground" />
           </div>
-          <span className="text-2xl font-display font-bold text-foreground tracking-tight">
+          <span className="text-xl font-display font-bold text-foreground tracking-tight">
             ExecAI
           </span>
         </div>
 
-        {/* Card */}
-        <div className="glass-card-solid rounded-2xl p-8">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
-            <Wallet className="w-8 h-8 text-primary" />
+        <div className="bg-card rounded-2xl p-8 border border-border/50 shadow-sm">
+          <div className="w-14 h-14 rounded-2xl bg-primary/8 flex items-center justify-center mx-auto mb-6">
+            <Wallet className="w-7 h-7 text-primary" />
           </div>
 
-          <h1 className="text-xl font-display font-bold text-foreground mb-2">
+          <h1 className="text-lg font-display font-bold text-foreground mb-2">
             Connect Your Wallet
           </h1>
           <p className="text-sm text-muted-foreground mb-6">
             Connect a wallet to access your AI execution workspace.
           </p>
 
-          {/* Supported chains */}
           <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
             {supportedChains.map((chain) => (
               <span
@@ -62,17 +59,13 @@ const WalletGate = ({ children }: WalletGateProps) => {
             {({ openConnectModal }) => (
               <button
                 onClick={openConnectModal}
-                className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-medium text-sm flex items-center justify-center gap-2 hover:bg-primary/90 transition-all active:scale-[0.98] glow-hover"
+                className="w-full h-11 rounded-xl bg-primary text-primary-foreground font-medium text-sm flex items-center justify-center gap-2 hover:bg-primary/90 transition-all active:scale-[0.98]"
               >
                 <Zap className="w-4 h-4" />
                 Connect Wallet
               </button>
             )}
           </ConnectButton.Custom>
-
-          <p className="text-[11px] text-muted-foreground mt-4">
-            ⚡ Powered by Rialo
-          </p>
         </div>
       </motion.div>
     </div>
