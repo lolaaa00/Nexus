@@ -1,23 +1,15 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Wallet } from "lucide-react";
+import { Play } from "lucide-react";
 import AgentCard from "@/components/AgentCard";
 import AgentModal from "@/components/AgentModal";
 import ActivityFeed from "@/components/ActivityFeed";
 import MultiAgentView from "@/components/MultiAgentView";
-import WalletConnect from "@/components/WalletConnect";
 import { Switch } from "@/components/ui/switch";
-import rialoLogo from "@/assets/rialo-logo.png";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
-}
-
-interface WalletState {
-  address: string;
-  chain: "evm" | "solana";
-  label: string;
 }
 
 const agents = [
@@ -42,7 +34,6 @@ const Index = () => {
   const [selectedAgent, setSelectedAgent] = useState<typeof agents[0] | null>(null);
   const [memories, setMemories] = useState<Record<string, Message[]>>({});
   const [multiMode, setMultiMode] = useState(false);
-  const [wallet, setWallet] = useState<WalletState | null>(null);
 
   const currentHistory = selectedAgent ? (memories[selectedAgent.name] || []) : [];
 
@@ -56,23 +47,19 @@ const Index = () => {
       {/* Header */}
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src={rialoLogo} alt="Rialo" className="w-8 h-8 rounded-lg object-contain" />
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+            <Play className="w-4 h-4 text-primary-foreground fill-primary-foreground" />
+          </div>
           <span className="text-xl font-display font-bold text-foreground tracking-tight">ExecAI</span>
           <span className="text-[10px] text-muted-foreground border border-border px-1.5 py-0.5 rounded">by Rialo</span>
         </div>
         <div className="flex items-center gap-4">
-          {wallet && (
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground">Single</span>
-              <Switch checked={multiMode} onCheckedChange={setMultiMode} />
-              <span className="text-xs text-muted-foreground">Multi-Agent</span>
-            </div>
-          )}
-          <WalletConnect
-            connected={wallet}
-            onConnect={setWallet}
-            onDisconnect={() => setWallet(null)}
-          />
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Single</span>
+            <Switch checked={multiMode} onCheckedChange={setMultiMode} />
+            <span className="text-xs text-muted-foreground">Multi-Agent</span>
+          </div>
+          <span className="text-xs text-muted-foreground bg-secondary/60 px-3 py-1.5 rounded-full">3 agents live</span>
         </div>
       </header>
 
@@ -95,68 +82,50 @@ const Index = () => {
         </motion.div>
       </section>
 
-      {/* Gate behind wallet */}
-      {!wallet ? (
-        <div className="text-center mb-20">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex flex-col items-center gap-4 glass-card rounded-2xl px-10 py-8"
+      {/* Empty state */}
+      {!selectedAgent && (
+        <div className="text-center mb-8">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-muted-foreground text-sm animate-pulse"
           >
-            <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-              <Wallet className="w-7 h-7 text-primary" />
-            </div>
-            <p className="text-foreground font-medium">Connect your wallet to get started</p>
-            <p className="text-sm text-muted-foreground max-w-xs">
-              Link your MetaMask or Phantom wallet to access AI agents
-            </p>
-          </motion.div>
+            ✨ Select an agent below to begin
+          </motion.p>
         </div>
+      )}
+
+      {multiMode ? (
+        <MultiAgentView agents={agents} />
       ) : (
         <>
-          {/* Empty state */}
-          {!selectedAgent && !multiMode && (
-            <div className="text-center mb-8">
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-muted-foreground text-sm animate-pulse"
-              >
-                ✨ Select an agent below to begin
-              </motion.p>
+          {/* Agent Cards */}
+          <section className="px-6 md:px-12 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-6">
+              {agents.map((agent, i) => (
+                <AgentCard
+                  key={agent.name}
+                  agent={agent}
+                  index={i}
+                  onSelect={setSelectedAgent}
+                  isActive={selectedAgent?.name === agent.name}
+                />
+              ))}
             </div>
-          )}
+          </section>
 
-          {multiMode ? (
-            <MultiAgentView agents={agents} />
-          ) : (
-            <>
-              <section className="px-6 md:px-12 max-w-5xl mx-auto">
-                <div className="grid md:grid-cols-3 gap-6">
-                  {agents.map((agent, i) => (
-                    <AgentCard
-                      key={agent.name}
-                      agent={agent}
-                      index={i}
-                      onSelect={setSelectedAgent}
-                      isActive={selectedAgent?.name === agent.name}
-                    />
-                  ))}
-                </div>
-              </section>
+          {/* Activity Feed */}
+          <section className="px-6 md:px-12 max-w-5xl mx-auto mt-16 mb-20">
+            <ActivityFeed />
+          </section>
 
-              <section className="px-6 md:px-12 max-w-5xl mx-auto mt-16 mb-20">
-                <ActivityFeed />
-              </section>
-
-              <AgentModal
-                agent={selectedAgent}
-                onClose={() => setSelectedAgent(null)}
-                conversationHistory={currentHistory}
-                onUpdateHistory={handleUpdateHistory}
-              />
-            </>
-          )}
+          {/* Modal */}
+          <AgentModal
+            agent={selectedAgent}
+            onClose={() => setSelectedAgent(null)}
+            conversationHistory={currentHistory}
+            onUpdateHistory={handleUpdateHistory}
+          />
         </>
       )}
     </div>
