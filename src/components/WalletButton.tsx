@@ -5,7 +5,7 @@ import { LogOut, Wallet } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const WalletButton = () => {
-  const { isConnected, address, chain } = useAccount();
+  const { isConnected, address } = useAccount();
   const { disconnect } = useDisconnect();
 
   if (!isConnected) {
