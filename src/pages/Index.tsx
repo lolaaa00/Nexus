@@ -5,6 +5,8 @@ import AgentCard from "@/components/AgentCard";
 import AgentModal from "@/components/AgentModal";
 import ActivityFeed from "@/components/ActivityFeed";
 import MultiAgentView from "@/components/MultiAgentView";
+import WalletGate from "@/components/WalletGate";
+import WalletButton from "@/components/WalletButton";
 import { Switch } from "@/components/ui/switch";
 
 interface Message {
@@ -43,6 +45,7 @@ const Index = () => {
   }, [selectedAgent]);
 
   return (
+    <WalletGate>
     <div className="min-h-screen">
       {/* Header */}
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
@@ -59,7 +62,7 @@ const Index = () => {
             <Switch checked={multiMode} onCheckedChange={setMultiMode} />
             <span className="text-xs text-muted-foreground">Multi-Agent</span>
           </div>
-          <span className="text-xs text-muted-foreground bg-secondary/60 px-3 py-1.5 rounded-full">3 agents live</span>
+          <WalletButton />
         </div>
       </header>
 
@@ -129,6 +132,7 @@ const Index = () => {
         </>
       )}
     </div>
+    </WalletGate>
   );
 };
 
