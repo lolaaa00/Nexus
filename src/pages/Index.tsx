@@ -45,6 +45,7 @@ const Index = () => {
   }, [selectedAgent]);
 
   return (
+    <WalletGate>
     <div className="min-h-screen">
       {/* Header */}
       <header className="px-6 md:px-12 py-6 flex items-center justify-between">
@@ -61,7 +62,7 @@ const Index = () => {
             <Switch checked={multiMode} onCheckedChange={setMultiMode} />
             <span className="text-xs text-muted-foreground">Multi-Agent</span>
           </div>
-          <span className="text-xs text-muted-foreground bg-secondary/60 px-3 py-1.5 rounded-full">3 agents live</span>
+          <WalletButton />
         </div>
       </header>
 
