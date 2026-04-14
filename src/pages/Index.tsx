@@ -5,6 +5,8 @@ import AgentCard from "@/components/AgentCard";
 import AgentModal from "@/components/AgentModal";
 import ActivityFeed from "@/components/ActivityFeed";
 import MultiAgentView from "@/components/MultiAgentView";
+import WalletGate from "@/components/WalletGate";
+import WalletButton from "@/components/WalletButton";
 import { Switch } from "@/components/ui/switch";
 
 interface Message {
