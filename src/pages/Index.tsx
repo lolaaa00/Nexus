@@ -132,6 +132,7 @@ const Index = () => {
         </>
       )}
     </div>
+    </WalletGate>
   );
 };
 
