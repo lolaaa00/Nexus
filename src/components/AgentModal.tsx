@@ -93,7 +93,6 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
   const [error, setError] = useState("");
   const outputRef = useRef("");
 
-  // Reset state when agent changes
   useEffect(() => {
     setInput("");
     setOutput("");
@@ -112,7 +111,6 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
     outputRef.current = "";
 
     const userMsg: Message = { role: "user", content: input };
-    // Keep last 5 messages for context
     const recentHistory = conversationHistory.slice(-4);
     const allMessages = [...recentHistory, userMsg];
 
@@ -149,11 +147,11 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
         >
           <div className="absolute inset-0 bg-foreground/20 backdrop-blur-sm" />
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            initial={{ opacity: 0, scale: 0.97, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            exit={{ opacity: 0, scale: 0.97, y: 8 }}
             transition={{ type: "spring", duration: 0.4 }}
-            className="relative glass-card-solid rounded-3xl w-full max-w-lg p-8 z-10 max-h-[85vh] overflow-y-auto"
+            className="relative bg-card rounded-2xl w-full max-w-lg p-8 z-10 max-h-[85vh] overflow-y-auto shadow-xl border border-border/50"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -163,17 +161,16 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
               <X className="w-5 h-5" />
             </button>
 
-            <h2 className="text-2xl font-display font-bold text-foreground mb-1">
+            <h2 className="text-xl font-display font-bold text-foreground mb-1">
               {agent.name}
             </h2>
-            <p className="text-muted-foreground text-sm mb-4">{agent.description}</p>
+            <p className="text-muted-foreground text-sm mb-5">{agent.description}</p>
 
-            {/* Conversation history preview */}
             {conversationHistory.length > 0 && (
               <div className="mb-4 space-y-2 max-h-32 overflow-y-auto">
                 {conversationHistory.slice(-4).map((msg, i) => (
-                  <div key={i} className={`text-xs px-3 py-1.5 rounded-xl ${msg.role === "user" ? "bg-primary/10 text-primary ml-8" : "bg-secondary/60 text-muted-foreground mr-8"}`}>
-                    <span className="font-medium">{msg.role === "user" ? "You" : "AI"}:</span> {msg.content.slice(0, 80)}{msg.content.length > 80 ? "…" : ""}
+                  <div key={i} className={`text-xs px-3 py-1.5 rounded-lg ${msg.role === "user" ? "bg-primary/10 text-primary ml-8" : "bg-secondary/60 text-muted-foreground mr-8"}`}>
+                    <span className="font-medium">{msg.role === "user" ? "You" : "AI"}:</span> {msg.content.slice(0, 80)}{msg.content.length > 80 ? "..." : ""}
                   </div>
                 ))}
               </div>
@@ -181,7 +178,7 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
 
             <textarea
               placeholder="Describe your task..."
-              className="w-full bg-secondary/50 border-0 rounded-2xl p-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none min-h-[100px] transition-shadow"
+              className="w-full bg-secondary/50 border border-border/30 rounded-xl p-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none min-h-[100px] transition-shadow"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
@@ -195,7 +192,7 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
             <button
               onClick={runAgent}
               disabled={loading || !input.trim()}
-              className="w-full mt-4 bg-primary text-primary-foreground py-3 rounded-xl font-medium text-sm hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2 group animate-pulse-subtle"
+              className="w-full mt-4 bg-primary text-primary-foreground py-3 rounded-xl font-medium text-sm hover:bg-primary/90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -204,15 +201,15 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
                     <span className="w-1.5 h-1.5 bg-primary-foreground rounded-full animate-bounce [animation-delay:150ms]" />
                     <span className="w-1.5 h-1.5 bg-primary-foreground rounded-full animate-bounce [animation-delay:300ms]" />
                   </span>
-                  Thinking...
+                  Processing...
                 </>
               ) : (
-                "Run Agent"
+                "Execute"
               )}
             </button>
 
             {error && (
-              <div className="mt-4 bg-destructive/10 text-destructive rounded-2xl p-4 text-sm">
+              <div className="mt-4 bg-destructive/10 text-destructive rounded-xl p-4 text-sm">
                 {error}
               </div>
             )}
@@ -224,7 +221,7 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
                   animate={{ opacity: 1, height: "auto" }}
                   className="mt-5"
                 >
-                  <div className="bg-secondary/40 rounded-2xl p-5">
+                  <div className="bg-secondary/40 rounded-xl p-5 border border-border/30">
                     <p className="text-sm text-foreground whitespace-pre-line leading-relaxed">
                       {output}
                       {loading && <span className="inline-block w-0.5 h-4 bg-primary ml-0.5 animate-pulse" />}
@@ -233,17 +230,17 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
                       <CodePreview content={output} agentName={agent.name} />
                     )}
                     {!loading && (
-                      <div className="flex items-center gap-2 mt-4 pt-3 border-t border-border/50">
+                      <div className="flex items-center gap-2 mt-4 pt-3 border-t border-border/30">
                         <span className="text-xs text-muted-foreground mr-auto">Was this helpful?</span>
                         <button
                           onClick={() => setRated("up")}
-                          className={`p-2 rounded-xl transition-colors ${rated === "up" ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}
+                          className={`p-2 rounded-lg transition-colors ${rated === "up" ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}
                         >
                           <ThumbsUp className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => setRated("down")}
-                          className={`p-2 rounded-xl transition-colors ${rated === "down" ? "bg-destructive/15 text-destructive" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}
+                          className={`p-2 rounded-lg transition-colors ${rated === "down" ? "bg-destructive/15 text-destructive" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}
                         >
                           <ThumbsDown className="w-4 h-4" />
                         </button>

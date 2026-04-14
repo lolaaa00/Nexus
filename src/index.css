@@ -36,10 +36,6 @@
 
     --radius: 0.75rem;
 
-    --glass-bg: 0 0% 100% / 0.6;
-    --glass-border: 0 0% 100% / 0.3;
-    --glow-primary: 330 22% 43% / 0.25;
-
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -57,31 +53,13 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
-    background: linear-gradient(160deg, hsl(38 18% 82%), hsl(38 18% 76%), hsl(35 16% 74%));
+    @apply bg-background text-foreground font-sans antialiased;
+    background: radial-gradient(ellipse at 30% 20%, hsl(38 18% 82%), hsl(38 18% 78%) 50%, hsl(35 16% 75%));
     min-height: 100vh;
   }
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-card/60 backdrop-blur-xl border border-card/30 shadow-lg;
-  }
-
-  .glass-card-solid {
-    @apply bg-card/90 backdrop-blur-xl border border-card/20 shadow-lg;
-  }
-
-  .glow-hover {
-    @apply transition-all duration-300 ease-out;
-  }
-
-  .glow-hover:hover {
-    box-shadow: 0 8px 32px hsl(var(--glow-primary)),
-                0 2px 8px hsl(var(--glow-primary));
-    transform: translateY(-2px);
-  }
-
   .spinner {
     @apply inline-block w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full;
     animation: spin 0.7s linear infinite;
