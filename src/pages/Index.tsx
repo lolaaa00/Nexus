@@ -74,7 +74,10 @@ const Index = () => {
         >
           <h1 className="text-[40px] md:text-[56px] font-display font-bold text-primary leading-[1.1] mb-5 tracking-tight">
             AI That Actually Executes
-          </h1>
+           </h1>
+          <p className="text-base md:text-lg max-w-[600px] mx-auto leading-relaxed" style={{ color: '#6e5a62' }}>
+            Run specialized agents that don't just respond — they build, analyze, and generate real outputs instantly.
+          </p>
         </motion.div>
       </section>
 
