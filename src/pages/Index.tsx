@@ -76,7 +76,7 @@ const Index = () => {
             AI That Actually Executes
            </h1>
           <p className="text-base md:text-lg max-w-[600px] mx-auto leading-relaxed" style={{ color: '#6e5a62' }}>
-            Run specialized agents that don't just respond — they build, analyze, and generate real outputs instantly.
+            Run specialized agents that don't just respond, they build, analyze, and generate real outputs instantly.
           </p>
         </motion.div>
       </section>
