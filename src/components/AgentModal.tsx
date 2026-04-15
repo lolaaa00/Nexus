@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ThumbsUp, ThumbsDown } from "lucide-react";
+import { X, ThumbsUp, ThumbsDown, Link, Code, FileText } from "lucide-react";
 import CodePreview from "./CodePreview";
+import FormattedOutput from "./FormattedOutput";
+import OutputActions from "./OutputActions";
+import { buildEnhancedPrompt, detectUrls, isCodeInput } from "@/lib/input-utils";
 
 interface Message {
   role: "user" | "assistant";
@@ -85,6 +88,15 @@ async function streamChat({
   }
 }
 
+function extractHtmlCode(text: string): string | null {
+  const match = text.match(/```html\s*([\s\S]*?)```/);
+  if (match) return match[1].trim();
+  if (text.trim().startsWith("<!DOCTYPE") || text.trim().startsWith("<html")) {
+    return text.trim();
+  }
+  return null;
+}
+
 const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: AgentModalProps) => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
@@ -102,6 +114,9 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
     outputRef.current = "";
   }, [agent?.name]);
 
+  const inputHasUrls = detectUrls(input).length > 0;
+  const inputHasCode = isCodeInput(input);
+
   const runAgent = () => {
     if (!input.trim() || !agent) return;
     setLoading(true);
@@ -110,7 +125,8 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
     setRated(null);
     outputRef.current = "";
 
-    const userMsg: Message = { role: "user", content: input };
+    const enhancedInput = buildEnhancedPrompt(input, agent.name);
+    const userMsg: Message = { role: "user", content: enhancedInput };
     const recentHistory = conversationHistory.slice(-4);
     const allMessages = [...recentHistory, userMsg];
 
@@ -124,7 +140,7 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
       onDone: () => {
         setLoading(false);
         const assistantMsg: Message = { role: "assistant", content: outputRef.current };
-        onUpdateHistory([...conversationHistory, userMsg, assistantMsg].slice(-10));
+        onUpdateHistory([...conversationHistory, { role: "user", content: input }, assistantMsg].slice(-10));
       },
       onError: (err) => {
         setLoading(false);
@@ -134,6 +150,8 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
 
     setInput("");
   };
+
+  const htmlCode = output ? extractHtmlCode(output) : null;
 
   return (
     <AnimatePresence>
@@ -151,7 +169,7 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97, y: 8 }}
             transition={{ type: "spring", duration: 0.4 }}
-            className="relative bg-card rounded-2xl w-full max-w-lg p-8 z-10 max-h-[85vh] overflow-y-auto shadow-xl border border-border/50"
+            className="relative bg-card rounded-2xl w-full max-w-2xl p-8 z-10 max-h-[85vh] overflow-y-auto shadow-xl border border-border/50"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -176,18 +194,48 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
               </div>
             )}
 
-            <textarea
-              placeholder="Describe your task..."
-              className="w-full bg-secondary/50 border border-border/30 rounded-xl p-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none min-h-[100px] transition-shadow"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  runAgent();
+            {/* Enhanced input */}
+            <div className="relative">
+              <textarea
+                placeholder={
+                  agent.name === "Content Engine"
+                    ? "Paste a URL, article, or describe your content..."
+                    : agent.name === "Crypto Analyst"
+                    ? "Enter a token name, wallet address, or paste a link..."
+                    : "Describe the game you want to build..."
                 }
-              }}
-            />
+                className="w-full bg-secondary/50 border border-border/30 rounded-xl p-4 pr-20 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-y min-h-[100px] max-h-[300px] transition-shadow font-mono leading-relaxed"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    runAgent();
+                  }
+                }}
+              />
+              {/* Input type indicators */}
+              <div className="absolute top-3 right-3 flex gap-1.5">
+                {inputHasUrls && (
+                  <span className="flex items-center gap-1 text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                    <Link className="w-3 h-3" />
+                    URL
+                  </span>
+                )}
+                {inputHasCode && (
+                  <span className="flex items-center gap-1 text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                    <Code className="w-3 h-3" />
+                    Code
+                  </span>
+                )}
+                {input.length > 200 && (
+                  <span className="flex items-center gap-1 text-[10px] text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">
+                    <FileText className="w-3 h-3" />
+                    {input.length}
+                  </span>
+                )}
+              </div>
+            </div>
 
             <button
               onClick={runAgent}
@@ -222,13 +270,21 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
                   className="mt-5"
                 >
                   <div className="bg-secondary/40 rounded-xl p-5 border border-border/30">
-                    <p className="text-sm text-foreground whitespace-pre-line leading-relaxed">
-                      {output}
-                      {loading && <span className="inline-block w-0.5 h-4 bg-primary ml-0.5 animate-pulse" />}
-                    </p>
+                    <FormattedOutput content={output} agentName={agent.name} />
+                    {loading && <span className="inline-block w-0.5 h-4 bg-primary ml-0.5 animate-pulse" />}
+                    
                     {!loading && agent && (
                       <CodePreview content={output} agentName={agent.name} />
                     )}
+
+                    {!loading && (
+                      <OutputActions
+                        content={output}
+                        agentName={agent.name}
+                        htmlCode={htmlCode}
+                      />
+                    )}
+
                     {!loading && (
                       <div className="flex items-center gap-2 mt-4 pt-3 border-t border-border/30">
                         <span className="text-xs text-muted-foreground mr-auto">Was this helpful?</span>
