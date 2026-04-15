@@ -140,7 +140,8 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
       onDone: () => {
         setLoading(false);
         const assistantMsg: Message = { role: "assistant", content: outputRef.current };
-        onUpdateHistory([...conversationHistory, { role: "user", content: input }, assistantMsg].slice(-10));
+        const userDisplayMsg: Message = { role: "user", content: input };
+        onUpdateHistory([...conversationHistory, userDisplayMsg, assistantMsg].slice(-10));
       },
       onError: (err) => {
         setLoading(false);
