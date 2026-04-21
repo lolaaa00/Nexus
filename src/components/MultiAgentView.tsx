@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Download, CheckCircle2, Maximize2, Minimize2, Copy, FileText, ExternalLink } from "lucide-react";
-import { buildEnhancedPrompt } from "@/lib/input-utils";
+import { buildEnhancedPrompt, detectUrls, scrapeUrls } from "@/lib/input-utils";
 import FormattedOutput from "./FormattedOutput";
 
 interface Agent {
@@ -41,11 +41,22 @@ const MultiAgentView = ({ agents }: MultiAgentViewProps) => {
   const [fullscreenAgent, setFullscreenAgent] = useState<string | null>(null);
   const outputRefs = useRef<Record<string, string>>({});
 
-  const runAll = () => {
+  const runAll = async () => {
     if (!prompt.trim() || running) return;
     setRunning(true);
     setPreviewAgent(null);
     outputRefs.current = {};
+
+    // Scrape URLs if present
+    const urls = detectUrls(prompt);
+    let scrapedContent = "";
+    if (urls.length > 0) {
+      try {
+        scrapedContent = await scrapeUrls(urls);
+      } catch {
+        // Continue without scraped content
+      }
+    }
 
     const initial: AgentResponse[] = agents.map((a) => ({
       agentName: a.name,
@@ -59,7 +70,7 @@ const MultiAgentView = ({ agents }: MultiAgentViewProps) => {
     agents.forEach((agent) => {
       outputRefs.current[agent.name] = "";
 
-      const enhancedPrompt = buildEnhancedPrompt(prompt, agent.name, true);
+      const enhancedPrompt = buildEnhancedPrompt(prompt, agent.name, true, scrapedContent);
 
       fetch(CHAT_URL, {
         method: "POST",
