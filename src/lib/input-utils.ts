@@ -1,7 +1,32 @@
 const URL_REGEX = /https?:\/\/[^\s<>"{}|\\^`[\]]+/gi;
 
+const SCRAPE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/scrape`;
+
 export function detectUrls(text: string): string[] {
   return text.match(URL_REGEX) || [];
+}
+
+export async function scrapeUrls(urls: string[]): Promise<string> {
+  const results = await Promise.all(
+    urls.slice(0, 3).map(async (url) => {
+      try {
+        const resp = await fetch(SCRAPE_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ url }),
+        });
+        if (!resp.ok) return `[Could not fetch ${url}]`;
+        const data = await resp.json();
+        return `--- Content from ${url} ---\n${data.content}\n--- End ---`;
+      } catch {
+        return `[Could not fetch ${url}]`;
+      }
+    })
+  );
+  return results.join("\n\n");
 }
 
 export function isCodeInput(text: string): boolean {
@@ -19,14 +44,17 @@ export function isCodeInput(text: string): boolean {
 export function buildEnhancedPrompt(
   userInput: string,
   agentName: string,
-  isMultiAgent: boolean = false
+  isMultiAgent: boolean = false,
+  scrapedContent: string = ""
 ): string {
   const urls = detectUrls(userInput);
   const hasCode = isCodeInput(userInput);
 
   let enhanced = userInput;
 
-  if (urls.length > 0) {
+  if (urls.length > 0 && scrapedContent) {
+    enhanced = `The user provided URL(s): ${urls.join(", ")}.\n\nHere is the actual content scraped from those pages:\n\n${scrapedContent}\n\nUser request: ${userInput}\n\nUse the scraped content above to create an accurate, informed response.`;
+  } else if (urls.length > 0) {
     enhanced = `The user provided the following URL(s): ${urls.join(", ")}.\n\nUser request: ${userInput}\n\nPlease analyze the URL context and incorporate it into your response.`;
   }
 
