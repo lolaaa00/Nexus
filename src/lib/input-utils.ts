@@ -74,7 +74,7 @@ export function buildEnhancedPrompt(
       enhanced += "\n\nYou are part of a multi-agent team. The Content Engine is creating shareable content and the Game Builder is creating an interactive experience on the same topic. Your role is to provide the deepest factual analysis. Be the knowledge foundation the other agents build on.";
     }
   } else if (agentName === "Game Builder") {
-    enhanced += "\n\nIMPORTANT: Output ONLY the complete HTML code first (wrapped in ```html), then a brief explanation. The code must be a single self-contained HTML file with inline CSS and JS.";
+    enhanced += "\n\nIMPORTANT: Output ONLY the complete HTML code first (wrapped in ```html), then a brief explanation. The code must be a single self-contained HTML file with inline CSS and JS.\n\nThe game MUST include:\n- Clear visual feedback when the user selects an answer: show GREEN for correct answers and RED for wrong answers immediately after clicking\n- A short explanation of why the answer is correct or incorrect\n- A running score counter\n- A restart/play again button at the end\n- Modern polished UI with gradients and smooth transitions";
     if (isMultiAgent) {
       enhanced += "\n\nYou are part of a multi-agent team. The Crypto Analyst is explaining the topic and the Content Engine is creating shareable content on the same topic. Your role is to turn the concept into an interactive learning experience.\n\nIf the topic is educational or conceptual, create a quiz-style game with:\n- Multiple-choice questions about the topic\n- Score tracking\n- Correct/incorrect feedback with explanations\n- A restart option\n- Modern, polished UI with gradients and animations\n\nMake the game teach the user about the topic through play.";
     }
