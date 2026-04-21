@@ -1,6 +1,6 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Download, RefreshCw, CheckCircle2, Maximize2, Minimize2, Copy, FileText, ExternalLink } from "lucide-react";
+import { Play, Download, CheckCircle2, Maximize2, Minimize2, Copy, FileText, ExternalLink } from "lucide-react";
 import { buildEnhancedPrompt } from "@/lib/input-utils";
 import FormattedOutput from "./FormattedOutput";
 
