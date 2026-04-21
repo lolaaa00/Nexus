@@ -53,7 +53,9 @@ const Index = () => {
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
             <Play className="w-4 h-4 text-primary-foreground fill-primary-foreground" />
           </div>
-          <span className="text-lg font-display font-bold text-foreground tracking-tight">ExecAI</span>
+          <span className="text-xl font-display font-bold text-foreground tracking-tight">ExecAI</span>
+          <span className="text-muted-foreground text-sm font-light mx-1">×</span>
+          <span className="text-base font-display font-semibold text-foreground/80 tracking-tight">Rialo</span>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
@@ -124,7 +126,7 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="mt-auto py-8 text-center">
-        <p className="text-xs text-muted-foreground">Built for Rialo</p>
+        <p className="text-[11px] text-muted-foreground/60 tracking-wide">Built for Rialo</p>
       </footer>
     </div>
     </WalletGate>
