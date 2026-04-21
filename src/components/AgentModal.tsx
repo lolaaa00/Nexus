@@ -4,7 +4,7 @@ import { X, ThumbsUp, ThumbsDown, Link, Code, FileText } from "lucide-react";
 import CodePreview from "./CodePreview";
 import FormattedOutput from "./FormattedOutput";
 import OutputActions from "./OutputActions";
-import { buildEnhancedPrompt, detectUrls, isCodeInput } from "@/lib/input-utils";
+import { buildEnhancedPrompt, detectUrls, isCodeInput, scrapeUrls } from "@/lib/input-utils";
 
 interface Message {
   role: "user" | "assistant";
@@ -117,7 +117,7 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
   const inputHasUrls = detectUrls(input).length > 0;
   const inputHasCode = isCodeInput(input);
 
-  const runAgent = () => {
+  const runAgent = async () => {
     if (!input.trim() || !agent) return;
     setLoading(true);
     setOutput("");
@@ -125,7 +125,18 @@ const AgentModal = ({ agent, onClose, conversationHistory, onUpdateHistory }: Ag
     setRated(null);
     outputRef.current = "";
 
-    const enhancedInput = buildEnhancedPrompt(input, agent.name);
+    // Scrape URLs if present
+    const urls = detectUrls(input);
+    let scrapedContent = "";
+    if (urls.length > 0) {
+      try {
+        scrapedContent = await scrapeUrls(urls);
+      } catch {
+        // Continue without scraped content
+      }
+    }
+
+    const enhancedInput = buildEnhancedPrompt(input, agent.name, false, scrapedContent);
     const userMsg: Message = { role: "user", content: enhancedInput };
     const recentHistory = conversationHistory.slice(-4);
     const allMessages = [...recentHistory, userMsg];
