@@ -1,55 +1,66 @@
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { motion } from "framer-motion";
-import { Play, Wallet, Zap } from "lucide-react";
+import { Zap, Shield, Brain, Cpu } from "lucide-react";
 import { supportedChains } from "@/config/wallet";
 
-interface WalletGateProps {
-  children: React.ReactNode;
-}
-
-const WalletGate = ({ children }: WalletGateProps) => {
+const WalletGate = ({ children }: { children: React.ReactNode }) => {
   const { isConnected } = useAccount();
-
-  if (isConnected) {
-    return <>{children}</>;
-  }
+  if (isConnected) return <>{children}</>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6">
+    <div className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+      {/* Background orbs */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="max-w-sm w-full text-center"
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="max-w-md w-full"
       >
-        <div className="flex items-center justify-center gap-2.5 mb-8">
-          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
-            <Play className="w-4 h-4 text-primary-foreground fill-primary-foreground" />
+        {/* Logo */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center glow-purple-strong">
+              <Brain className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-2xl font-display font-bold text-white tracking-tight">RialAI</span>
           </div>
-          <span className="text-xl font-display font-bold text-foreground tracking-tight">
-            ExecAI
-          </span>
+          <p className="text-sm text-white/40 font-mono tracking-widest uppercase">Powered by Rialo</p>
         </div>
 
-        <div className="bg-card rounded-2xl p-8 border border-border/50 shadow-sm">
-          <div className="w-14 h-14 rounded-2xl bg-primary/8 flex items-center justify-center mx-auto mb-6">
-            <Wallet className="w-7 h-7 text-primary" />
+        {/* Card */}
+        <div className="glass rounded-2xl p-8 glow-purple">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 rounded-2xl bg-purple-600/15 border border-purple-500/20 flex items-center justify-center mx-auto mb-5">
+              <Shield className="w-8 h-8 text-purple-400" />
+            </div>
+            <h1 className="text-xl font-display font-bold text-white mb-2">Connect to Access</h1>
+            <p className="text-sm text-white/50 leading-relaxed">
+              Connect your wallet to unlock the RialAI agent workspace. No crypto experience needed.
+            </p>
           </div>
 
-          <h1 className="text-lg font-display font-bold text-foreground mb-2">
-            Connect Your Wallet
-          </h1>
-          <p className="text-sm text-muted-foreground mb-6">
-            Connect a wallet to access your AI execution workspace.
-          </p>
+          {/* Features */}
+          <div className="grid grid-cols-3 gap-3 mb-7">
+            {[
+              { icon: <Brain className="w-4 h-4" />, label: "6 AI Agents" },
+              { icon: <Zap className="w-4 h-4" />, label: "Real Outputs" },
+              { icon: <Cpu className="w-4 h-4" />, label: "Rialo Ready" },
+            ].map((f) => (
+              <div key={f.label} className="bg-white/3 rounded-xl p-3 text-center border border-white/5">
+                <div className="text-purple-400 flex justify-center mb-1.5">{f.icon}</div>
+                <p className="text-[11px] text-white/50 font-mono">{f.label}</p>
+              </div>
+            ))}
+          </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+          {/* Chains */}
+          <div className="flex flex-wrap gap-1.5 justify-center mb-6">
             {supportedChains.map((chain) => (
-              <span
-                key={chain.id}
-                className="text-[11px] text-muted-foreground bg-secondary/60 px-2.5 py-1 rounded-full"
-              >
+              <span key={chain.id} className="text-[10px] text-white/30 bg-white/4 px-2.5 py-1 rounded-full border border-white/6 font-mono">
                 {chain.icon} {chain.name}
               </span>
             ))}
@@ -59,13 +70,17 @@ const WalletGate = ({ children }: WalletGateProps) => {
             {({ openConnectModal }) => (
               <button
                 onClick={openConnectModal}
-                className="w-full h-11 rounded-xl bg-primary text-primary-foreground font-medium text-sm flex items-center justify-center gap-2 hover:bg-primary/90 transition-all active:scale-[0.98]"
+                className="w-full h-12 rounded-xl bg-purple-600 text-white font-semibold text-sm flex items-center justify-center gap-2 hover:bg-purple-500 transition-all glow-purple-strong active:scale-[0.98]"
               >
                 <Zap className="w-4 h-4" />
                 Connect Wallet
               </button>
             )}
           </ConnectButton.Custom>
+
+          <p className="text-center text-[11px] text-white/25 mt-4 font-mono">
+            Wallet is optional for core features · Web3 unlocks Rialo identity
+          </p>
         </div>
       </motion.div>
     </div>
