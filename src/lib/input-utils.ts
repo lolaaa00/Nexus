@@ -82,3 +82,17 @@ export function buildEnhancedPrompt(
 
   return enhanced;
 }
+
+// Extend buildEnhancedPrompt for new RialAI agents
+export function buildAgentFormatHint(agentName: string, isMultiAgent: boolean): string {
+  if (agentName === "Research Agent") {
+    return "\n\nFormat as a structured research brief:\n## Executive Summary\n## Background\n## Key Findings\n## Implications\n## Further Reading\nUse bullet points and bold key terms.";
+  }
+  if (agentName === "Quiz Builder") {
+    return "\n\nReturn ONLY complete HTML quiz game code (wrapped in ```html), then a brief explanation. Single file, inline CSS/JS, no libraries.";
+  }
+  if (agentName === "Debate Agent") {
+    return "\n\nStructure as:\n## PROPOSITION\n## OPPOSITION\n## KEY TENSIONS\n## VERDICT\nBe sharp, intellectual, commit to clear arguments.";
+  }
+  return "";
+}
