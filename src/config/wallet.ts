@@ -2,8 +2,8 @@ import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { mainnet, polygon, arbitrum, optimism, base, bsc } from "wagmi/chains";
 
 export const walletConfig = getDefaultConfig({
-  appName: "ExecAI",
-  projectId: "demo00000000000000000000000000000", // Replace with real WalletConnect Cloud project ID
+  appName: "RialAI",
+  projectId: "demo00000000000000000000000000000",
   chains: [mainnet, polygon, arbitrum, optimism, base, bsc],
 });
 

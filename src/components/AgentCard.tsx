@@ -1,10 +1,22 @@
 import { motion } from "framer-motion";
-import { TrendingUp, PenLine, Gamepad2 } from "lucide-react";
+import { TrendingUp, PenLine, Gamepad2, Search, HelpCircle, MessageSquare } from "lucide-react";
 
 const iconMap: Record<string, React.ReactNode> = {
   "Crypto Analyst": <TrendingUp className="w-6 h-6" />,
   "Content Engine": <PenLine className="w-6 h-6" />,
   "Game Builder": <Gamepad2 className="w-6 h-6" />,
+  "Research Agent": <Search className="w-6 h-6" />,
+  "Quiz Builder": <HelpCircle className="w-6 h-6" />,
+  "Debate Agent": <MessageSquare className="w-6 h-6" />,
+};
+
+const tagMap: Record<string, string> = {
+  "Crypto Analyst": "Analysis",
+  "Content Engine": "Content",
+  "Game Builder": "Interactive",
+  "Research Agent": "Research",
+  "Quiz Builder": "Education",
+  "Debate Agent": "Critical Thinking",
 };
 
 interface Agent {
@@ -25,14 +37,19 @@ const AgentCard = ({ agent, index, onSelect, isActive }: AgentCardProps) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.08, duration: 0.4 }}
+      transition={{ delay: index * 0.07, duration: 0.4 }}
       className={`bg-card rounded-[20px] p-7 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group ${
         isActive ? "ring-2 ring-primary shadow-lg" : "border border-border/50"
       }`}
       onClick={() => onSelect(agent)}
     >
-      <div className="w-12 h-12 rounded-xl bg-primary/8 flex items-center justify-center text-primary mb-5 group-hover:bg-primary/15 transition-colors duration-300">
-        {iconMap[agent.name]}
+      <div className="flex items-start justify-between mb-5">
+        <div className="w-12 h-12 rounded-xl bg-primary/8 flex items-center justify-center text-primary group-hover:bg-primary/15 transition-colors duration-300">
+          {iconMap[agent.name]}
+        </div>
+        <span className="text-[10px] font-mono text-muted-foreground bg-secondary/60 px-2 py-1 rounded-full border border-border/30">
+          {tagMap[agent.name]}
+        </span>
       </div>
       <h3 className="text-lg font-display font-semibold text-foreground mb-2">
         {agent.name}
