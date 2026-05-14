@@ -169,7 +169,7 @@ const Dashboard = ({ runHistory, totalRuns }: DashboardProps) => {
             
               href="https://rialo.io"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}
               className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 transition-colors font-mono"
             >
               Learn about Rialo <ArrowUpRight className="w-3 h-3" />
