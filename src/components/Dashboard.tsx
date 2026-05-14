@@ -166,14 +166,12 @@ const Dashboard = ({ runHistory, totalRuns }: DashboardProps) => {
             ))}
           </div>
           <div className="mt-5 pt-4 border-t border-white/5">
-            
-              href="https://rialo.io"
-              target="_blank"
-              rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}
+            <button
+              onClick={() => window.open("https://rialo.io", "_blank")}
               className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 transition-colors font-mono"
             >
               Learn about Rialo <ArrowUpRight className="w-3 h-3" />
-            </a>
+            </button>
           </div>
         </motion.div>
       </div>
