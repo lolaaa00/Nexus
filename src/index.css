@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -34,11 +34,10 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
-    background: #0a0b0f;
+    background: #08090f;
     background-image:
-      radial-gradient(ellipse at 20% 10%, rgba(124, 58, 237, 0.12) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 90%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 70%);
+      radial-gradient(ellipse at 15% 10%, rgba(124,58,237,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 85%, rgba(99,102,241,0.07) 0%, transparent 50%);
     min-height: 100vh;
   }
 }
@@ -47,17 +46,9 @@
 .font-mono { font-family: 'Space Mono', monospace; }
 
 .glass {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255,255,255,0.03);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.glow-purple {
-  box-shadow: 0 0 30px rgba(124, 58, 237, 0.15), 0 0 60px rgba(124, 58, 237, 0.05);
-}
-
-.glow-purple-strong {
-  box-shadow: 0 0 40px rgba(124, 58, 237, 0.25), 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 .gradient-text {
@@ -67,19 +58,23 @@
   background-clip: text;
 }
 
-.card-hover {
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.card-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 30px rgba(124, 58, 237, 0.1);
-  border-color: rgba(124, 58, 237, 0.25);
+.agent-glow { box-shadow: 0 0 20px rgba(124,58,237,0.2); }
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.8); opacity: 0; }
 }
 
-@layer components {
-  .spinner {
-    @apply inline-block w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full;
-    animation: spin 0.7s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes flow {
+  0% { stroke-dashoffset: 100; opacity: 0; }
+  20% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+.flow-line { animation: flow 1.5s ease-out forwards; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  @apply inline-block w-4 h-4 border-2 border-purple-400/30 border-t-purple-400 rounded-full;
+  animation: spin 0.7s linear infinite;
 }

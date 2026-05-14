@@ -1,7 +1,7 @@
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { motion } from "framer-motion";
-import { Zap, Shield, Brain, Cpu } from "lucide-react";
+import { Zap, Shield, Network, Cpu } from "lucide-react";
 import { supportedChains } from "@/config/wallet";
 
 const WalletGate = ({ children }: { children: React.ReactNode }) => {
@@ -24,9 +24,9 @@ const WalletGate = ({ children }: { children: React.ReactNode }) => {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center glow-purple-strong">
-              <Brain className="w-5 h-5 text-white" />
+              <Network className="w-5 h-5 text-white" />
             </div>
-            <span className="text-2xl font-display font-bold text-white tracking-tight">RialAI</span>
+            <span className="text-2xl font-display font-bold text-white tracking-tight">NEXUS</span>
           </div>
           <p className="text-sm text-white/40 font-mono tracking-widest uppercase">Powered by Rialo</p>
         </div>
@@ -39,14 +39,14 @@ const WalletGate = ({ children }: { children: React.ReactNode }) => {
             </div>
             <h1 className="text-xl font-display font-bold text-white mb-2">Connect to Access</h1>
             <p className="text-sm text-white/50 leading-relaxed">
-              Connect your wallet to unlock the RialAI agent workspace. No crypto experience needed.
+              Connect your wallet to unlock the NEXUS agent workspace. No crypto experience needed.
             </p>
           </div>
 
           {/* Features */}
           <div className="grid grid-cols-3 gap-3 mb-7">
             {[
-              { icon: <Brain className="w-4 h-4" />, label: "6 AI Agents" },
+              { icon: <Network className="w-4 h-4" />, label: "6 AI Agents" },
               { icon: <Zap className="w-4 h-4" />, label: "Real Outputs" },
               { icon: <Cpu className="w-4 h-4" />, label: "Rialo Ready" },
             ].map((f) => (
