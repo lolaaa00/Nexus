@@ -15,13 +15,13 @@ export default function Sidebar({ page, setPage }: { page: Page; setPage: (p: Pa
   return (
     <aside style={{
       width: 210,
-      background: 'rgba(255,255,255,0.012)',
-      borderRight: '1px solid rgba(255,255,255,0.045)',
+      background: 'rgba(255,255,255,0.4)',
+      borderRight: '1px solid rgba(130,88,109,0.1)',
       display: 'flex', flexDirection: 'column',
       height: '100vh', flexShrink: 0,
     }}>
       {/* Logo */}
-      <div style={{ padding: '22px 16px 18px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+      <div style={{ padding: '22px 16px 18px', borderBottom: '1px solid rgba(130,88,109,0.08)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{
             width: 34, height: 34, borderRadius: 10,
@@ -32,8 +32,8 @@ export default function Sidebar({ page, setPage }: { page: Page; setPage: (p: Pa
             <RialoLogo size={18} color="white" />
           </div>
           <div>
-            <p style={{ fontSize: 15, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#e8e2d5', lineHeight: 1.1, letterSpacing: '-0.02em' }}>rialai</p>
-            <p style={{ fontSize: 9, fontFamily: 'Space Mono', color: 'rgba(130,88,109,0.7)', letterSpacing: '0.08em' }}>× RIALO</p>
+            <p style={{ fontSize: 15, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#2d1f28', lineHeight: 1.1, letterSpacing: '-0.02em' }}>rialai</p>
+            <p style={{ fontSize: 9, fontFamily: 'Space Mono', color: 'rgba(130,88,109,0.8)', letterSpacing: '0.08em' }}>× RIALO</p>
           </div>
         </div>
       </div>
@@ -55,7 +55,7 @@ export default function Sidebar({ page, setPage }: { page: Page; setPage: (p: Pa
       </nav>
 
       {/* Bottom */}
-      <div style={{ padding: '12px 10px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+      <div style={{ padding: '12px 10px', borderTop: '1px solid rgba(130,88,109,0.08)' }}>
         <div className="nav-item" onClick={() => setPage('settings')} style={{ marginBottom: 8 }}>
           <Settings size={15} strokeWidth={1.8} />
           <span>Settings</span>
@@ -64,9 +64,9 @@ export default function Sidebar({ page, setPage }: { page: Page; setPage: (p: Pa
         <div style={{ padding: '10px 12px', borderRadius: 10, background: 'rgba(130,88,109,0.07)', border: '1px solid rgba(130,88,109,0.12)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
             <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#86efac' }} className="dot-pulse" />
-            <span style={{ fontSize: 11, fontWeight: 600, fontFamily: 'Space Grotesk', color: 'rgba(130,88,109,0.9)' }}>Rialo Network</span>
+            <span style={{ fontSize: 11, fontWeight: 600, fontFamily: 'Space Grotesk', color: '#82586d' }}>Rialo Network</span>
           </div>
-          <p style={{ fontSize: 10, color: 'rgba(232,226,213,0.3)', lineHeight: 1.5 }}>Identity & coordination layer. Phase 2 coming.</p>
+          <p style={{ fontSize: 10, color: 'rgba(45,31,40,0.4)', lineHeight: 1.5 }}>Identity & coordination layer. Phase 2 coming.</p>
         </div>
       </div>
     </aside>

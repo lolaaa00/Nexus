@@ -181,11 +181,11 @@ export default function Workspace() {
       <AnimatePresence>
         {fullscreen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#08090f', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(12,11,9,0.95)', backdropFilter: 'blur(20px)' }}>
+            style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#d1ccbf', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px', borderBottom: '1px solid rgba(130,88,109,0.1)', background: 'rgba(209,204,191,0.95)', backdropFilter: 'blur(20px)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span>🎮</span>
-                <span style={{ fontFamily: 'Space Grotesk', fontWeight: 600, color: '#e8e2d5', fontSize: 13 }}>Playground — {fullscreen.name}</span>
+                <span style={{ fontFamily: 'Space Grotesk', fontWeight: 600, color: '#2d1f28', fontSize: 13 }}>Playground — {fullscreen.name}</span>
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
                 <button className="btn-soft" style={{ fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}
@@ -207,10 +207,10 @@ export default function Workspace() {
         {/* Greeting */}
         {!hasResults && (
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} style={{ marginBottom: 36 }}>
-            <h1 style={{ fontSize: 28, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#e8e2d5', marginBottom: 6, letterSpacing: '-0.025em' }}>
+            <h1 style={{ fontSize: 28, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#2d1f28', marginBottom: 6, letterSpacing: '-0.025em' }}>
               {greeting} 👋
             </h1>
-            <p style={{ fontSize: 15, color: 'rgba(232,226,213,0.4)', letterSpacing: '-0.01em' }}>
+            <p style={{ fontSize: 15, color: 'rgba(45,31,40,0.45)', letterSpacing: '-0.01em' }}>
               What shall we build, learn, or explore today?
             </p>
           </motion.div>
@@ -251,7 +251,7 @@ export default function Workspace() {
         {/* Tool intro cards (before results) */}
         {!hasResults && (
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-            <p style={{ fontSize: 11, fontFamily: 'Space Mono', color: 'rgba(232,226,213,0.2)', letterSpacing: '0.12em', marginBottom: 14 }}>YOUR TOOLS</p>
+            <p style={{ fontSize: 11, fontFamily: 'Space Mono', color: 'rgba(45,31,40,0.25)', letterSpacing: '0.12em', marginBottom: 14, color: 'rgba(45,31,40,0.35)' }}>YOUR TOOLS</p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto', gap: 14 }}>
 
               {/* Playground — hero, full width */}
@@ -262,11 +262,11 @@ export default function Workspace() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
                       <div style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🎮</div>
                       <div>
-                        <p style={{ fontSize: 18, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#e8e2d5', letterSpacing: '-0.02em' }}>Playground</p>
+                        <p style={{ fontSize: 18, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#2d1f28', letterSpacing: '-0.02em' }}>Playground</p>
                         <p style={{ fontSize: 12, color: 'rgba(245,158,11,0.7)' }}>Interactive experiences</p>
                       </div>
                     </div>
-                    <p style={{ fontSize: 14, color: 'rgba(232,226,213,0.5)', lineHeight: 1.6, maxWidth: 420 }}>
+                    <p style={{ fontSize: 14, color: 'rgba(45,31,40,0.5)', lineHeight: 1.6, maxWidth: 420 }}>
                       Describe an idea — get back something you can play, interact with, and share. Quizzes, games, simulations. Built in seconds.
                     </p>
                   </div>
@@ -284,15 +284,15 @@ export default function Workspace() {
               {/* Lens */}
               <div className="tool-card" style={{ padding: 22 }} onClick={() => setInput('Explain how neural networks learn')}>
                 <div style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, marginBottom: 14 }}>🔍</div>
-                <p style={{ fontSize: 15, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#e8e2d5', marginBottom: 6, letterSpacing: '-0.01em' }}>Lens</p>
-                <p style={{ fontSize: 13, color: 'rgba(232,226,213,0.45)', lineHeight: 1.6 }}>Understand anything deeply. Ask it a question, get a structured answer that actually makes sense.</p>
+                <p style={{ fontSize: 15, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#2d1f28', marginBottom: 6, letterSpacing: '-0.01em' }}>Lens</p>
+                <p style={{ fontSize: 13, color: 'rgba(45,31,40,0.45)', lineHeight: 1.6 }}>Understand anything deeply. Ask it a question, get a structured answer that actually makes sense.</p>
               </div>
 
               {/* Studio */}
               <div className="tool-card" style={{ padding: 22 }} onClick={() => setInput('Write a thread about the future of creative work')}>
                 <div style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, marginBottom: 14 }}>✍️</div>
-                <p style={{ fontSize: 15, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#e8e2d5', marginBottom: 6, letterSpacing: '-0.01em' }}>Studio</p>
-                <p style={{ fontSize: 13, color: 'rgba(232,226,213,0.45)', lineHeight: 1.6 }}>Shape raw ideas into structured content. Threads, articles, briefs — ready to publish.</p>
+                <p style={{ fontSize: 15, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#2d1f28', marginBottom: 6, letterSpacing: '-0.01em' }}>Studio</p>
+                <p style={{ fontSize: 13, color: 'rgba(45,31,40,0.45)', lineHeight: 1.6 }}>Shape raw ideas into structured content. Threads, articles, briefs — ready to publish.</p>
               </div>
             </div>
           </motion.div>
@@ -302,7 +302,7 @@ export default function Workspace() {
         {hasResults && (
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-              <p style={{ fontSize: 11, fontFamily: 'Space Mono', color: 'rgba(232,226,213,0.2)', letterSpacing: '0.12em' }}>OUTPUT</p>
+              <p style={{ fontSize: 11, fontFamily: 'Space Mono', color: 'rgba(45,31,40,0.25)', letterSpacing: '0.12em' }}>OUTPUT</p>
               {!running && (
                 <button className="btn-soft" style={{ fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}
                   onClick={() => { setToolStates([]); }}>
@@ -320,15 +320,15 @@ export default function Workspace() {
               return (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                   style={{ marginBottom: 16, borderRadius: 20, border: `1px solid ${pg.status === 'running' ? 'rgba(245,158,11,0.3)' : 'rgba(245,158,11,0.15)'}`, background: 'rgba(245,158,11,0.04)', overflow: 'hidden', transition: 'border-color 0.3s', boxShadow: pg.status === 'running' ? '0 0 40px rgba(245,158,11,0.08)' : 'none' }}>
-                  <div style={{ padding: '18px 22px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div style={{ padding: '18px 22px', borderBottom: '1px solid rgba(130,88,109,0.08)', display: 'flex', alignItems: 'center', gap: 10 }}>
                     <span style={{ fontSize: 18 }}>🎮</span>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <p style={{ fontSize: 14, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#e8e2d5' }}>Playground</p>
+                        <p style={{ fontSize: 14, fontWeight: 700, fontFamily: 'Space Grotesk', color: '#2d1f28' }}>Playground</p>
                         {pg.status === 'done' && <CheckCircle2 size={13} style={{ color: '#86efac' }} />}
                         {pg.status === 'running' && <div className="spin" style={{ width: 12, height: 12, border: '1.5px solid rgba(245,158,11,0.3)', borderTopColor: '#f59e0b', borderRadius: '50%' }} />}
                       </div>
-                      <p style={{ fontSize: 11, color: 'rgba(232,226,213,0.35)' }}>
+                      <p style={{ fontSize: 11, color: 'rgba(45,31,40,0.4)' }}>
                         {pg.status === 'running' ? 'Building your experience...' : pg.status === 'done' ? 'Interactive experience ready' : 'Waiting'}
                       </p>
                     </div>
@@ -372,12 +372,12 @@ export default function Workspace() {
                 const tool = TOOLS.find(t => t.id === ts.id)!;
                 return (
                   <motion.div key={ts.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-                    style={{ borderRadius: 16, border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.025)', overflow: 'hidden' }}>
-                    <div style={{ padding: '16px 18px', borderBottom: '1px solid rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                    style={{ borderRadius: 16, border: '1px solid rgba(130,88,109,0.1)', background: 'rgba(255,255,255,0.55)', overflow: 'hidden' }}>
+                    <div style={{ padding: '16px 18px', borderBottom: '1px solid rgba(130,88,109,0.08)', display: 'flex', alignItems: 'center', gap: 8 }}>
                       <span style={{ fontSize: 16 }}>{ts.icon}</span>
                       <div style={{ flex: 1 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                          <p style={{ fontSize: 13, fontWeight: 600, fontFamily: 'Space Grotesk', color: '#e8e2d5' }}>{ts.name}</p>
+                          <p style={{ fontSize: 13, fontWeight: 600, fontFamily: 'Space Grotesk', color: '#2d1f28' }}>{ts.name}</p>
                           {ts.status === 'done' && <CheckCircle2 size={12} style={{ color: '#86efac' }} />}
                           {ts.status === 'running' && <div className="spin" style={{ width: 11, height: 11, border: `1.5px solid ${ts.color}30`, borderTopColor: ts.color, borderRadius: '50%' }} />}
                         </div>

@@ -34,14 +34,14 @@ export default function ActivityPanel() {
 
   return (
     <aside style={{
-      width: 240, borderLeft: '1px solid rgba(255,255,255,0.04)',
+      width: 240, borderLeft: '1px solid rgba(130,88,109,0.1)',
       display: 'flex', flexDirection: 'column',
       height: '100vh', flexShrink: 0, overflowY: 'auto',
     }}>
-      <div style={{ padding: '22px 16px 14px', borderBottom: '1px solid rgba(255,255,255,0.04)', position: 'sticky', top: 0, background: 'var(--bg)', zIndex: 5 }}>
+      <div style={{ padding: '22px 16px 14px', borderBottom: '1px solid rgba(130,88,109,0.08)', position: 'sticky', top: 0, background: 'var(--bg)', zIndex: 5 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
           <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#86efac' }} className="dot-pulse" />
-          <p style={{ fontSize: 12, fontWeight: 600, fontFamily: 'Space Grotesk', color: 'rgba(232,226,213,0.55)', letterSpacing: '-0.01em' }}>Live activity</p>
+          <p style={{ fontSize: 12, fontWeight: 600, fontFamily: 'Space Grotesk', color: 'rgba(45,31,40,0.6)', letterSpacing: '-0.01em' }}>Live activity</p>
         </div>
       </div>
 
@@ -56,10 +56,10 @@ export default function ActivityPanel() {
           }}>
             <span style={{ fontSize: 14, flexShrink: 0, marginTop: 1 }}>{item.icon}</span>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 11, fontWeight: 600, color: 'rgba(232,226,213,0.6)', fontFamily: 'Space Grotesk', lineHeight: 1.3 }}>{item.tool}</p>
-              <p style={{ fontSize: 11, color: 'rgba(232,226,213,0.35)', lineHeight: 1.4, marginTop: 1 }}>{item.action}</p>
+              <p style={{ fontSize: 11, fontWeight: 600, color: 'rgba(45,31,40,0.65)', fontFamily: 'Space Grotesk', lineHeight: 1.3 }}>{item.tool}</p>
+              <p style={{ fontSize: 11, color: 'rgba(45,31,40,0.4)', lineHeight: 1.4, marginTop: 1 }}>{item.action}</p>
             </div>
-            <p style={{ fontSize: 10, fontFamily: 'Space Mono', color: 'rgba(232,226,213,0.18)', flexShrink: 0, paddingTop: 1 }}>{item.time}</p>
+            <p style={{ fontSize: 10, fontFamily: 'Space Mono', color: 'rgba(45,31,40,0.25)', flexShrink: 0, paddingTop: 1 }}>{item.time}</p>
           </div>
         ))}
       </div>
